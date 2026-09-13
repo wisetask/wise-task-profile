@@ -28,7 +28,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
 
 reset-password:
   recovery-link: "https://wisetask.ru/profile/reset_password?token="

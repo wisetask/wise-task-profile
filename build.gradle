@@ -72,6 +72,14 @@ protobuf {
     }
 }
 
+sourceSets {
+    main {
+        proto {
+            srcDir 'src/main/resources/proto'
+        }
+    }
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }

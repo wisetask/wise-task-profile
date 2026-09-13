@@ -91,8 +91,8 @@ public class ProfileGrpcService extends ProfileServiceImplBase {
     }
 
     @Override
-    public void getAllProfiles(Empty request, StreamObserver<GetAllProfilesResponse> responseObserver) {
-        responseObserver.onNext(getAllProfilesOperation.activate());
+    public void getAllProfiles(GetAllProfilesRequest request, StreamObserver<GetAllProfilesResponse> responseObserver) {
+        responseObserver.onNext(getAllProfilesOperation.activate(request));
         responseObserver.onCompleted();
     }
 
