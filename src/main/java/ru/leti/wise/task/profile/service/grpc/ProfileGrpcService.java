@@ -32,6 +32,7 @@ public class ProfileGrpcService extends ProfileServiceImplBase {
     private final DeleteProfileOperation deleteProfileOperation;
     private final UpdateProfileOperation updateProfileOperation;
     private final GetAllProfilesOperation getAllProfilesOperation;
+    private final GetProfilesByIdsOperation getProfilesByIdsOperation;
     private final GetProfileByEmailOperation getProfileByEmailOperation;
 
     @Override
@@ -93,6 +94,12 @@ public class ProfileGrpcService extends ProfileServiceImplBase {
     @Override
     public void getAllProfiles(GetAllProfilesRequest request, StreamObserver<GetAllProfilesResponse> responseObserver) {
         responseObserver.onNext(getAllProfilesOperation.activate(request));
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getProfilesByIds(ProfileIds request, StreamObserver<Profiles> responseObserver) {
+        responseObserver.onNext(getProfilesByIdsOperation.activate(request));
         responseObserver.onCompleted();
     }
 

@@ -16,6 +16,7 @@ public interface ProfileMapper {
     Profile toProfile(ProfileEntity profile);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isExternal", constant = "false")
     ProfileEntity toProfileEntity(Profile profile);
 
     @Mapping(target = "id",

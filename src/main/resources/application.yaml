@@ -26,9 +26,18 @@ spring:
   jpa:
     generate-ddl: false
     show-sql: true
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         format_sql: false
+  liquibase:
+    url: jdbc:postgresql://${DB:localhost}:5432/${PROFILE_DB:wise_task_profile}
+    user: ${PROFILE_DB_USER:wise_task_profile}
+    password: ${PROFILE_DB_PASSWORD:wise_task_profile}
+    change-log: classpath:db/database-changelog.xml
+    enabled: true
 
 reset-password:
   recovery-link: "https://wisetask.ru/profile/reset_password?token="
