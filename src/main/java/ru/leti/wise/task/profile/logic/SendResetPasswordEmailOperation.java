@@ -1,6 +1,7 @@
 package ru.leti.wise.task.profile.logic;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SendResetPasswordEmailOperation {
@@ -50,6 +52,7 @@ public class SendResetPasswordEmailOperation {
 
 
     public void activate(SendResetPasswordEmailRequest request) {
+        log.info("Requesting reset password email: email='{}'", request.getEmail());
         ProfileEntity profile = profileValidator.checkEmailExistence(request.getEmail());
         rateLimitValidator.checkRateLimit(request.getEmail());
         UUID recoveryToken = UUID.randomUUID();
@@ -59,6 +62,9 @@ public class SendResetPasswordEmailOperation {
         passwordRecoveryEntity.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         passwordRecoveryEntity.setExpiresAt(Timestamp.valueOf(LocalDateTime.now().plusMinutes(tokenExpiresMinutes)));
         passwordRecoveryRepository.save(passwordRecoveryEntity);
+        log.debug("Password recovery request saved: email='{}', expiresAt={}",
+                passwordRecoveryEntity.getEmail(), passwordRecoveryEntity.getExpiresAt());
         emailSender.sendEmail(profile.getEmail(), emailSubject, createEmailHtml(recoveryToken.toString()));
+        log.info("Reset password email sent: email='{}'", profile.getEmail());
     }
 }

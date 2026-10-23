@@ -1,6 +1,7 @@
 package ru.leti.wise.task.profile.logic;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.leti.wise.task.profile.ProfileGrpc.GetProfileRequest;
 import ru.leti.wise.task.profile.ProfileGrpc.GetProfileResponse;
@@ -12,6 +13,7 @@ import ru.leti.wise.task.profile.validation.ProfileValidator;
 
 import java.util.UUID;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class GetProfileOperation {
@@ -20,7 +22,10 @@ public class GetProfileOperation {
     private final ProfileValidator profileValidator;
 
     public GetProfileResponse activate(GetProfileRequest request) {
+        log.debug("Fetching profile: id={}", request.getProfileId());
         var profile = profileValidator.checkForExistence(request.getProfileId());
+        log.debug("Profile found: id={}, email='{}', role={}",
+                profile.getId(), profile.getEmail(), profile.getProfileRole());
 
         return GetProfileResponse.newBuilder()
                 .setProfile(profileMapper.toProfile(profile))

@@ -4,6 +4,7 @@ package ru.leti.wise.task.profile;
 
 import "profile.proto";
 import "google/protobuf/empty.proto";
+import "pagination.proto";
 
 
 service ProfileService {
@@ -13,16 +14,19 @@ service ProfileService {
   rpc ResetPassword(ResetPasswordRequest) returns (ResetPasswordResponse);
   rpc ChangePassword(ChangePasswordRequest) returns (google.protobuf.Empty);
   rpc GetAllProfiles(GetAllProfilesRequest) returns (GetAllProfilesResponse);
+  rpc GetProfilesByIds(ProfileIds) returns (Profiles);
   rpc GetProfile(GetProfileRequest) returns (GetProfileResponse);
   rpc GetProfileByEmail(GetProfileByEmailRequest) returns (GetProfileByEmailResponse);
   rpc DeleteProfile(DeleteProfileRequest) returns (google.protobuf.Empty);
   rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse);
   rpc GetProfileStatistic(GetProfileStatisticRequest) returns (GetProfileStatisticResponse);
 }
+message ProfileIds {
+  repeated string profile_ids = 1;
+}
 
-message PaginationRequest {
-  int32 page_size = 1;
-  int32 page = 2;
+message Profiles {
+  repeated Profile profiles = 1;
 }
 
 message ProfileFilter {
@@ -34,22 +38,13 @@ message ProfileFilter {
 }
 
 message GetAllProfilesRequest{
-  PaginationRequest pagination = 1;
+  ru.leti.wise.task.pagination.PaginationRequest pagination = 1;
   ProfileFilter filter = 2;
 }
 
 message GetAllProfilesResponse {
   repeated Profile items = 1;
-  PaginationResponse pagination = 2;
-}
-
-message PaginationResponse {
-  int32 page = 1;
-  int32 page_size = 2;
-  int64 total_count = 3;
-  int32 total_pages = 4;
-  bool has_next = 5;
-  bool has_previous = 6;
+  ru.leti.wise.task.pagination.PaginationResponse pagination = 2;
 }
 
 message GetProfileRequest {
@@ -90,6 +85,7 @@ message GetProfileStatisticResponse {
 
 message SignUpRequest {
   Profile profile = 1;
+  bool is_external = 2;
 }
 
 message SignUpResponse {

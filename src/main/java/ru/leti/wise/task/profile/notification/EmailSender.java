@@ -2,12 +2,13 @@ package ru.leti.wise.task.profile.notification;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.Properties;
 
+@Slf4j
 @Component
 // TODO async send
 public class EmailSender {
@@ -28,6 +29,8 @@ public class EmailSender {
     private boolean starttlsEnable;
 
     public void sendEmail(String toAddress, String subject, String htmlContent) {
+        log.debug("Sending email: to='{}', subject='{}', htmlSize={} bytes, smtpHost={}, smtpPort={}",
+                toAddress, subject, htmlContent == null ? 0 : htmlContent.length(), smtpHost, smtpPort);
         Properties props = new Properties();
         props.put("mail.smtp.host", smtpHost);
         props.put("mail.smtp.port", String.valueOf(smtpPort));
@@ -44,9 +47,10 @@ public class EmailSender {
             message.setContent(htmlContent, "text/html; charset=utf-8");
 
             Transport.send(message);
-            System.out.println(LocalDateTime.now() + " Письмо для " + toAddress + " успешно отправлено!");
+            log.info("Email sent successfully: to='{}', subject='{}'", toAddress, subject);
         } catch (MessagingException e) {
-            System.err.println(LocalDateTime.now() + " Ошибка отправки: " + e.getMessage());
+            log.error("Failed to send email: to='{}', subject='{}', reason={}",
+                    toAddress, subject, e.getMessage(), e);
         }
     }
 }

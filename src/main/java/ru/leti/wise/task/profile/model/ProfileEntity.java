@@ -32,4 +32,7 @@ public class ProfileEntity {
     @Column(name = "profile_role")
     private Role profileRole;
 
+    @Column(name = "is_external")
+    private Boolean isExternal;
+
 }
