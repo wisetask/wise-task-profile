@@ -3,6 +3,7 @@ package ru.leti.wise.task.profile.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.Instant;
 import java.util.UUID;
 
 import static jakarta.persistence.EnumType.STRING;
@@ -34,5 +35,8 @@ public class ProfileEntity {
 
     @Column(name = "is_external")
     private Boolean isExternal;
+
+    @Column(name = "created_at")
+    private Instant createdAt;
 
 }

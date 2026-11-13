@@ -25,8 +25,8 @@ public class UpdateProfileOperation {
 
     public UpdateProfileResponse activate(Profile profile) {
         log.info("Updating profile: id={}, email='{}'", profile.getId(), profile.getEmail());
-        profileValidator.checkEmptyFieldsForUpdate(profile);
         var oldProfile = profileValidator.checkForExistence(profile.getId());
+        profileValidator.checkProfile(profile);
         profileMapper.updateProfileEntity(oldProfile, profile);
         profileRepository.save(oldProfile);
         log.info("Profile updated: id={}, email='{}'", oldProfile.getId(), oldProfile.getEmail());

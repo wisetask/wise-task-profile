@@ -34,7 +34,8 @@ public class SignUpOperation {
         var profileDto = signUpRequest.getProfile();
         var isExternal = signUpRequest.getIsExternal();
         log.info("Signing up profile: email='{}', external={}", profileDto.getEmail(), isExternal);
-        profileValidator.checkEmptyFields(profileDto, isExternal);
+        profileValidator.checkProfile(profileDto);
+        profileValidator.checkPassword(profileDto, isExternal);
         profileValidator.checkUniqueEmail(profileDto);
 
         ProfileEntity profile = profileMapper.toProfileEntity(signUpRequest.getProfile());

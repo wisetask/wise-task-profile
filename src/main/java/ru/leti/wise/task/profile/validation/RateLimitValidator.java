@@ -1,5 +1,6 @@
 package ru.leti.wise.task.profile.validation;
 
+import io.grpc.Status;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +34,7 @@ public class RateLimitValidator {
                 long secondsLeft = Duration.between(LocalDateTime.now(), lastRequestTime.plusMinutes(sendLimitMinutes)).getSeconds();
                 log.warn("Reset password rate limit exceeded: email='{}', lastRequestAt={}, secondsLeft={}",
                         email, lastRequestTime, secondsLeft);
-                throw new BusinessException(ErrorCode.MANY_REQUESTS, "Слишком частые запросы. Попробуйте через " + secondsLeft + " секунд.");
+                throw new BusinessException("Слишком частые запросы. Попробуйте через " + secondsLeft + " секунд.", Status.RESOURCE_EXHAUSTED);
             }
         }
     }

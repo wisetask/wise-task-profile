@@ -1,18 +1,24 @@
 package ru.leti.wise.task.profile.error;
 
+import io.grpc.Status;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
 public class BusinessException extends RuntimeException {
-
-    private final ErrorCode errorCode;
     private String message;
+    private Status status;
 
-    public BusinessException(ErrorCode errorCode, String message) {
+    public BusinessException(String message, Status status) {
         super(message);
-        this.errorCode = errorCode;
         this.message = message;
+        this.status = status;
+    }
+
+    public BusinessException(ErrorCode code) {
+        super(code.message);
+        this.message = code.message;
+        this.status = code.getStatus();
     }
 }
