@@ -1,0 +1,80 @@
+spring:
+  threads:
+    virtual:
+      enabled: true
+  grpc:
+    server:
+      port: ${PROFILE_GRPC_PORT:6567}
+
+  mail:
+    host: ${SMTP_HOST:localhost}
+    port: ${SMTP_PORT:25} # mailHog
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+    from-address: ${SMTP_RELAYHOST_USERNAME:noreply@wisetask.ru}
+  application:
+    name: wise-task-profile
+  datasource:
+    url: jdbc:postgresql://${DB:localhost}:5432/${PROFILE_DB:wise_task_profile}
+    username: ${PROFILE_DB_USER:wise_task_profile}
+    password: ${PROFILE_DB_PASSWORD:wise_task_profile}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: false
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    url: jdbc:postgresql://${DB:localhost}:5432/${PROFILE_DB:wise_task_profile}
+    user: ${PROFILE_DB_USER:wise_task_profile}
+    password: ${PROFILE_DB_PASSWORD:wise_task_profile}
+    change-log: classpath:db/database-changelog.xml
+    enabled: true
+
+reset-password:
+  recovery-link: "https://wisetask.ru/profile/reset_password?token="
+  token-expires: 10
+  send-limit: 2
+  template: reset-password.html
+  email-subject: "Ваша ссылка для восстановления пароля"
+
+welcome:
+  template: welcome.html
+
+logging:
+  level:
+    root: ${LOGGING_LEVEL:INFO}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: http://${TEMPO_HOST:localhost}:${TEMPO_PORT:4318}/v1/traces
+  otlp:
+    metrics:
+      export:
+        enabled: false # prometheus will do it
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true

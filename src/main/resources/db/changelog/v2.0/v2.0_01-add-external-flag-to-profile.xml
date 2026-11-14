@@ -7,9 +7,7 @@
 
     <changeSet id="add-external-flag-to-profile" author="magofrays">
         <sql>
-            ALTER TABLE profile OWNER TO wise_task_profile;
-            ALTER TABLE password_recovery OWNER TO wise_task_profile;
-            ALTER TABLE profile ADD COLUMN IF NOT EXISTS is_external boolean NOT NULL DEFAULT false;
+            ALTER TABLE IF EXISTS profile ADD COLUMN IF NOT EXISTS is_external boolean NOT NULL DEFAULT false;
         </sql>
     </changeSet>
 

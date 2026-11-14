@@ -25,13 +25,13 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     generate-ddl: false
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
-      dialect: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         format_sql: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
     url: jdbc:postgresql://${DB:localhost}:5432/${PROFILE_DB:wise_task_profile}
     user: ${PROFILE_DB_USER:wise_task_profile}
@@ -48,9 +48,6 @@ reset-password:
 
 welcome:
   template: welcome.html
-
-server:
-  port: ${PROFILE_PORT:8082}
 
 logging:
   level:

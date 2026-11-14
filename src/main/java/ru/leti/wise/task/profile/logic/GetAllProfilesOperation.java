@@ -68,7 +68,7 @@ public class GetAllProfilesOperation {
             var roles = toRoles(filter.getProfileRoleList());
             if (!roles.isEmpty())
                 predicates.add(root.get("profileRole").in(roles));
-
+            query.orderBy(cb.desc(root.get("createdAt")));
             return cb.and(predicates.toArray(Predicate[]::new));
         };
     }

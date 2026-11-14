@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '4.1.0'
+    id 'org.springframework.boot' version '4.1.2'
     id 'io.spring.dependency-management' version '1.1.7'
     id "com.google.protobuf" version "0.10.0"
 }
@@ -39,11 +39,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-liquibase'
     implementation 'org.postgresql:postgresql:42.7.12'
 
-    // Lombok
+    // Util
     compileOnly 'org.projectlombok:lombok:1.18.46'
     annotationProcessor 'org.projectlombok:lombok:1.18.46'
-
-    // Mapping
     implementation 'org.mapstruct:mapstruct:1.6.3'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 
@@ -53,8 +51,12 @@ dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'com.github.loki4j:loki-logback-appender:2.0.3'
 
-    // Internal
-    implementation 'com.github.wisetask:wise-task-library:1.0.8'
+    // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:testcontainers-postgresql'
+    testImplementation 'org.testcontainers:testcontainers-junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
 protobuf {
