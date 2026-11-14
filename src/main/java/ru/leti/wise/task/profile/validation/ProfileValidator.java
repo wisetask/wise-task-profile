@@ -32,9 +32,9 @@ public class ProfileValidator {
     }
 
     public void checkPassword(Profile profile, Boolean isExternal) {
-        if ((profile.getProfilePassword().isBlank() && !isExternal)) {
+        if (((profile.getProfilePassword().isBlank() || profile.getProfilePassword().length() < 3) && !isExternal)) {
             log.warn("Profile password is invalid, email: {}", profile.getEmail());
-            throw new BusinessException(ErrorCode.EMPTY_FIELDS);
+            throw new BusinessException("Пароль не может быть пустым или коротким", Status.INVALID_ARGUMENT);
         }
     }
 
@@ -89,7 +89,7 @@ public class ProfileValidator {
         });
     }
 
-    public void checkUuid(String uuid) { // здесь можно проверять корректность uuid
+    public void checkUuid(String uuid) {
         if (uuid.isBlank()) {
             log.warn("Profile id is blank");
             throw new BusinessException(ErrorCode.EMPTY_FIELDS);

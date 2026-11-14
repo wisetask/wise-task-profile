@@ -1,16 +1,21 @@
 package ru.leti.wise.task.profile.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "forbidden_word")
+@Builder
+@Table(name = "forbidden_words")
+@NoArgsConstructor
+@AllArgsConstructor
 public class ForbiddenWord {
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     private String word;
 }

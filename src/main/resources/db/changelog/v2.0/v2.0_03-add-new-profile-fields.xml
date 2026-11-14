@@ -7,7 +7,7 @@
 
     <changeSet id="create-forbidden-words-table" author="magofrays">
         <sql>
-            ALTER TABLE profile
+            ALTER TABLE IF EXISTS profile
                 ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP;
         </sql>
     </changeSet>
