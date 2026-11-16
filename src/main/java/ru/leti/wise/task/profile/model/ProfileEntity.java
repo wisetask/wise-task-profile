@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.Instant;
 import java.util.UUID;
+import org.hibernate.annotations.CreationTimestamp;
 
 import static jakarta.persistence.EnumType.STRING;
 
@@ -36,6 +37,7 @@ public class ProfileEntity {
     @Column(name = "is_external")
     private Boolean isExternal;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private Instant createdAt;
 
